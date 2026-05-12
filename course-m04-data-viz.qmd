@@ -1,0 +1,143 @@
+---
+title: "M04-Reflection Essay-Advanced Data Visualization"
+author: "Raymond Marquez"
+date: '`r format(Sys.time())`'
+format: 
+  html: 
+    toc: true
+    toc-depth: 4
+    number-sections: true
+    code-link: true
+    embed-resources: true
+editor: visual
+execute: 
+  freeze: auto
+---
+
+# Summarize what you learned from the presentation by **Thomas Lin Pedersen** on "ggplot2 workshop: Part 2 in Step 1
+
+Thomas Lin Pedersen's workshop expanded my awareness of the grammar of graphics and its extension packages. He described ggplot2 visualizations as layered components: data, aesthetics, and geometries. He then introduced extension tools like **patchwork** and **gganimate**, which enhance storytelling.
+
+-   **patchwork** allows combining multiple plots into a single, organized layout with simple syntax.
+
+-   **gganimate** adds animation to charts, effectively displaying changes over time.
+
+I learned that sophisticated visualization does not abandon grammar principles; rather, it builds upon them to improve clarity and narrative flow. Good visualization requires a blend of thoughtful design and technical skill.
+
+```{r}
+# patchwork example
+
+library(tidyverse)
+library(ggplot2)
+library(patchwork)
+
+p1 <- ggplot(mtcars, aes(x = wt, y = mpg)) + 
+  geom_point() + 
+  labs(title = "Weight vs MPG")
+
+p2 <- ggplot(mtcars, aes(x = factor(cyl), y = mpg)) + 
+  geom_boxplot() + 
+  labs(title = "MPG by Cylinders")
+
+# Combine with patchwork
+p1 + p2 + plot_annotation(title = "Motor Trend Car Road Tests")
+```
+
+```{r}
+# gganimate example
+library(gganimate)
+library(gapminder)
+
+p <- ggplot(gapminder, aes(x = gdpPercap, y = lifeExp, size = pop, color = continent)) +
+  geom_point(alpha = 0.7) +
+  scale_x_log10() +
+  labs(title = "Year: {frame_time}") +
+  transition_time(year) +
+  ease_aes('linear')
+
+animate(p, nframes = 100, fps = 10)
+```
+
+# In Step 2, a short video on "**ggplot2 Scales and Transformations - Data Communication / Data Visualization \| Video (13:36)**" was introduced. (1) Summarize it and (2) discuss how it fits with the grammar of graphics you learned in Step 1.
+
+The video about ggplot2 Scales and Transformations paid attention to the way scales are used to manage the association between data and visual objects. It also showed how to customize axis limits, tick marks, labels and color gradients in order to enhance readability. Other data transformations defined by the presenter include log scaling to deal with skewed distributions. I also got to know that scales affect the perception of magnitude and comparison among audiences. This is an idea that can be assigned to the grammar of graphics since scales are an essential element that perfects aesthetic mappings. The emphasis of Step 1 was on layering and structure and step 2 demonstrated how interpretation can be refined. Combined, they emphasize the fact that visualization does not solely rely on plotting data, but it also requires setting the values looked at with a close fine-tuning.
+
+```{r}
+
+#long scaling example
+
+ggplot(diamonds, aes(x = price, y = carat)) +
+  geom_bin2d() +
+  scale_x_log10(labels = scales::dollar) +
+  scale_y_log10() +
+  labs(x = "Price (log10 scale)", y = "Carat (log10 scale)")
+
+# color customizing 
+
+ggplot(mtcars, aes(x = wt, y = mpg, color = hp)) +
+  geom_point(size = 3) +
+  scale_color_gradient(low = "blue", high = "red", name = "Horsepower")
+```
+
+# In Step 3, ***David Robinson's video*** demonstrates impromptu data visualization. List three new functions that were not taught previously but were deemed helpful for you in the future. Briefly explain what you can do with each of the functions
+
+David Robinson’s impromptu demonstration introduced helpful functions that expand exploratory analysis. First, geom_smooth() adds regression or smoothing lines to highlight trends in scatterplots. This function helps summarize patterns clearly. Second, reorder() rearranges categorical variables based on numeric values, which improves bar chart interpretation. Third, facet_wrap() creates small multiples by splitting data into subgroups across panels. This allows structured comparison across categories. These functions move beyond basic plotting and support deeper insight generation. They help transform raw data into meaningful comparisons. I found them valuable because they improve both analysis and communication without requiring overly complex syntax.
+
+# What did you like about the ***gt*** and ***gtExtra*** packages demonstrated in Step 4? How do they complement data visualization using charts that we have spent so much time on so far? Under what circumstances would you prefer to use tables over charts in visualization data?
+
+The impression that I got about the ***{gt}*** and the ***{gtExtra}*** packages is that they bring tables to levels of publication quality outputs. Formatting of titles, column labels, alignment and numeric precision are extensively formatted with the use of the {gt} package. gtExtra adds visuals like sparklines and bar indicators to tables. Such tools are used alongside the charts since tables show the exact number whilst the charts show tendencies. Tables would be better where accuracy and detailed reporting are important e.g. statistical summary or financial performance. Charts are more effective where one needs to see patterns or comparison within a view. Combining the two gives a balanced presentation that helps in clarity and credibility of professional reporting.
+
+# Pick three tips and tricks you learned from Data Visualization guru ***Cédric Schere*** in Step 5 and explain why you liked them. 
+
+Cédric Scherer shared several practical design techniques. Three that resonated with me:
+
+1.  **Remove redundant gridlines and visual clutter** – Focusing on data improves clarity.
+
+2.  **Use color strategically** – Emphasize key variables instead of decorating charts.
+
+3.  **Add annotations** – Guide viewers to key insights without overwhelming them.
+
+These tips prioritize communication over technical flair, emphasizing that small changes can greatly improve professionalism and readability
+
+# In Step 6, you will find my advanced visualization notebook. Run the codes one by one and digest as much as you can. What are you most impressed with about the visualization approach or tools demonstrated in the codebook? 
+
+I was impressed by the visualization notebook as it incorporated
+
+-   Animation,
+
+-   Interactivity
+
+-   Mapping.
+
+The examples of animation demonstrated that charts can be used to depict change over the time in a very engaging way. The geospatial sections were used to show the value of mapping in adding spatial context to analysis. I also liked the way that various variables were superimposed in bubble charts and line plots. These illustrations showed that R can be used successfully to engage complicated storytelling tasks. Code line by line running also allowed me to see the way each argument works to produce the final output. The notebook also broadened my vision of what can be done with the help of just a couple of charts and made me want to learn more about more sophisticated tools of visualization. See below an example of rnaturalearth and rnaturalearthhires geospatial libraries use in this module.
+
+```{r}
+library(rnaturalearth)
+library(rnaturalearthhires)  # provides high-resolution data
+library(ggplot2)
+library(sf)
+
+# Get high-resolution world countries
+world_high <- ne_countries(scale = "large", returnclass = "sf")
+
+# Plot with a clean theme
+ggplot(data = world_high) +
+  geom_sf(fill = "antiquewhite", color = "gray20", size = 0.1) +
+  coord_sf(crs = "+proj=robin") +  # Robinson projection for a balanced view
+  theme_minimal() +
+  labs(title = "World Map (High Resolution from rnaturalearth)",
+       caption = "Data: Natural Earth") +
+  theme(panel.grid.major = element_line(color = "gray80", linetype = "dotted"))
+```
+
+# What seems to be the challenge, if any, for you when you try to master data visualization skills? How may you be able to overcome the challenge?
+
+A challenge I face in mastering data visualization is balancing code and design thinking. Sometimes I get too obsessed with syntax and lose sight of audience interpretation. Another difficulty is comprehending advanced customization arguments in functions, given the overwhelming number of options.
+
+I can overcome these barriers by:
+
+-   Practicing and experimenting: step-by-step execution of code helps me understand each part's role.
+
+-   Analyzing good examples to develop my design taste.
+
+-   Reflecting on my work to gradually build both technical expertise and visual communication confidence.

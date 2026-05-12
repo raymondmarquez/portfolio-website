@@ -1,0 +1,33 @@
+---
+title: "About Me"
+subtitle: "Raymond Marquez | Data Science & Marketing Professional"
+---
+
+```{=html}
+<div style="max-width:900px; margin:0 auto;">
+
+  <h2>Professional Journey</h2>
+  <p>I am a dedicated professional with a passion for leveraging data to drive strategic marketing decisions. My journey has been defined by a commitment to mastering the technical tools of data science while maintaining a sharp focus on business objectives.</p>
+
+  <h2>Technical Expertise</h2>
+  <p>My analytical toolkit is anchored in <strong>R Programming</strong>, where I specialize in:</p>
+  <ul>
+    <li><strong>Data Manipulation:</strong> Expert use of the Tidyverse for complex wrangling.</li>
+    <li><strong>Statistical Modeling:</strong> Developing predictive models and trend analyses.</li>
+    <li><strong>Visualization:</strong> Creating high-impact graphics with ggplot2 and interactive Revealjs decks.</li>
+    <li><strong>Reporting:</strong> Building automated, reproducible reports with Quarto.</li>
+  </ul>
+
+  <h2>Marketing Analytics</h2>
+  <p>As a <strong>Google Analytics 4 (GA4) Certified</strong> professional, I bridge the gap between technical data and marketing performance. I specialize in:</p>
+  <ul>
+    <li>Tracking and measuring the customer journey.</li>
+    <li>Optimizing marketing campaigns through data-driven insights.</li>
+    <li>Implementing advanced GA4 configurations and micro-applications.</li>
+  </ul>
+
+  <h2>Academic Foundation</h2>
+  <p>My academic work, reflected in my coursework and reflections, focuses on the theoretical underpinnings of data science. I believe that a strong conceptual foundation is essential for innovative problem-solving in the professional world.</p>
+
+</div>
+```

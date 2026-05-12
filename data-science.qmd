@@ -1,0 +1,76 @@
+---
+title: "Data Science"
+subtitle: "Analytical Projects & Technical Case Studies"
+---
+
+My data science portfolio encompasses a wide range of projects, from exploratory data analysis and wrangling to advanced statistical modeling and custom R programming solutions.
+
+```{=html}
+<div class="features-grid" style="margin-top:2rem;">
+
+  <div class="feature-card">
+    <div class="feature-icon-box">
+      <i class="bi bi-table"></i>
+    </div>
+    <h3>Advanced Data Wrangling</h3>
+    <p><strong>Tidyverse Implementation</strong><br>
+    A deep dive into complex data manipulation, cleaning, and preparation using the Tidyverse ecosystem in R.</p>
+    <a href="rendered/m05-application.html" class="btn-hero-primary" target="_blank">View Project</a>
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-icon-box">
+      <i class="bi bi-bar-chart-line"></i>
+    </div>
+    <h3>Data Visualization</h3>
+    <p><strong>Strategic Insights through Plotting</strong><br>
+    Leveraging ggplot2 and other visualization tools to transform raw data into intuitive, high-impact graphical representations.</p>
+    <a href="rendered/m04-data-viz-application.html" class="btn-hero-primary" target="_blank">View Project</a>
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-icon-box">
+      <i class="bi bi-code-slash"></i>
+    </div>
+    <h3>R Programming</h3>
+    <p><strong>Application of Core Logic</strong><br>
+    Implementing custom functions, loops, and robust error handling to solve analytical challenges efficiently.</p>
+    <a href="rendered/m11-application.html" class="btn-hero-primary" target="_blank">View Project</a>
+  </div>
+
+</div>
+
+<div class="features-grid" style="margin-top:2rem;">
+
+  <div class="feature-card">
+    <div class="feature-icon-box">
+      <i class="bi bi-file-earmark-arrow-up"></i>
+    </div>
+    <h3>Data Import & Export</h3>
+    <p><strong>Handling Diverse Data Sources</strong><br>
+    Establishing seamless pipelines for ingesting and outputting data across various formats and platforms.</p>
+    <a href="rendered/m09-application.html" class="btn-hero-primary" target="_blank">View Project</a>
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-icon-box">
+      <i class="bi bi-diagram-3"></i>
+    </div>
+    <h3>R Data Types</h3>
+    <p><strong>Mastering Structures</strong><br>
+    Working with vectors, lists, factors, and data frames to build flexible and performant analytical workflows.</p>
+    <a href="rendered/m07-application.html" class="btn-hero-primary" target="_blank">View Project</a>
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-icon-box">
+      <i class="bi bi-people"></i>
+    </div>
+    <h3>Group Analysis Case Study</h3>
+    <p><strong>Collaborative Data Wrangling</strong><br>
+    A joint effort focusing on real-world data challenges, highlighting collaborative problem-solving and rigorous analysis.</p>
+    <a href="rendered/group3-analysis.html" class="btn-hero-primary" target="_blank">View Project</a>
+  </div>
+
+</div>
+```

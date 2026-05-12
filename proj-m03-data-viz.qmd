@@ -1,0 +1,387 @@
+---
+title: "M03-2: Data Visualization-Application Assignment"
+author: "Raymond Marquez"
+date: '`r format(Sys.time())`'
+format: 
+  html: 
+    toc: true
+    toc-depth: 4
+    number-sections: true
+    code-line-numbers: true
+    code-fold: false
+    code-link: true
+    embed-resources: true
+editor: visual
+execute: 
+  freeze: auto
+  warning: false
+  error: true
+---
+
+```{r}
+library(tidyverse)
+library(ggrepel)
+library(ggthemes)
+library(scales)
+library(plotly)
+library(lattice)
+library(GGally)
+```
+
+```{r}
+# install this package:
+
+#install.packages("wooldridge")
+library(wooldridge)
+
+help(attend)
+df <- attend
+head(df)
+class(df)
+df <- as_tibble(df)
+df
+```
+
+# Ex 1: GT table
+
+```{r}
+
+library(gt)
+
+df %>%
+  gt()%>%
+  tab_header("Woolridge Dataset")%>%
+  fmt_number(columns = termGPA, decimals = 1)%>%
+  fmt_number(columns = priGPA, decimals = 1)%>%
+  fmt_number(columns = atndrte, decimals = 1)%>%
+  cols_label(
+    frosh = "freshman",
+    soph = "sophomore"
+  )%>%
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_column_labels(everything())
+  )%>%
+  tab_footnote(
+    footnote = "680 observations on 11 variables"
+  )
+  
+
+
+```
+
+# Ex 2: Scatter plot with ggplot2
+
+```{r}
+df_soph_relabeled <- df %>% 
+  mutate(soph = case_when(soph == "1" ~ "Sophormore",
+                           soph == "0" ~ "Non-Sophormore"),
+         soph = factor(soph)
+              )
+
+df_soph_relabeled %>%
+  ggplot(aes(priGPA, missed)) +
+  geom_point(size = 2, color = "blue")+
+  geom_smooth(method = "lm", se = FALSE, color = "red")+
+  facet_wrap(~ soph)+
+  theme_bw()+
+  labs(
+    title = "Relationship Between Prior GPA and Missed Classes",
+    subtitle = "Faceted by Sophomore Status",
+    x = "Prior GPA",
+    y = "Missed Classes",
+    caption = "Moderator: Sophomore status (0 = Not Sophomore, 1 = Sophomore)"
+  ) 
+  
+```
+
+# Ex 3: Understand barplots(dodge vs. stack. faceted)
+
+## 3.1
+
+```{r}
+df %>%
+  ggplot(aes(x = ACT)) +
+  geom_bar(fill = "steelblue") +
+  labs(title = "Distribution of ACT Scores",
+       x = "ACT Score", y = "Count") +
+  theme_minimal()
+```
+
+-   *The plot above reminds me of a normal distribution*
+
+## 3.2
+
+```{r}
+df_soph_relabeled <- df %>%
+  mutate(soph_label = factor(soph,
+                              levels = c(0, 1),
+                              labels = c("Not Sophomore", "Sophomore")))
+
+ggplot(df_soph_relabeled, aes(x = ACT, y = final, fill = soph_label)) +
+geom_col(position = "dodge", width = 0.7) +
+scale_fill_manual(values = c("Not Sophomore" = "purple", "Sophomore" = "skyblue")) +
+  labs(title = "Final Score by ACT and Sophomore Status",
+       x = "ACT Score", y = "Final Score",
+       fill = "Sophomore Status") +
+  theme_minimal()
+
+```
+
+```{r}
+#stacked bar chart
+ggplot(df_soph_relabeled, aes(x = ACT, y = final, fill = soph_label)) +
+  geom_col(position = "stack", width = 0.7) +
+  scale_fill_manual(values = c("Not Sophomore" = "purple", "Sophomore" = "skyblue")) +
+  labs(title = "Final Score by ACT and Sophomore Status (Stacked)",
+       x = "ACT Score", y = "Final Score",
+       fill = "Sophomore Status") +
+  theme_minimal()
+```
+
+```{r}
+#facetted bar chart
+ggplot(df_soph_relabeled, aes(x = ACT, y = final, fill = soph_label)) +
+  geom_col(width = 0.7) +
+  facet_wrap(~ soph_label) +
+  scale_fill_manual(values = c("Not Sophomore" = "purple", "Sophomore" = "skyblue")) +
+  labs(title = "Final Score by ACT",
+       x = "ACT Score", y = "Final Score") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+## 3.3
+
+-   *I would say that the **dodged bar chart** accurately describes the data since the final score values in the y-axis are aligned with what we have in our data*
+
+# Ex 4: Barplots with ACT averages
+
+## 4.1
+
+```{r}
+
+df_soph_relabeled <- df %>%
+  mutate(soph_label = factor(soph,
+                              levels = c(0, 1),
+                              labels = c("Not Sophomore", "Sophomore")))
+
+#Removing any missing values if necessary
+df_soph_relabeled <- df_soph_relabeled %>%
+  group_by(ACT, soph_label) %>%
+  summarise(mean_final = mean(final, na.rm = TRUE),
+            .groups = "drop")
+
+ggplot(df_soph_relabeled, aes(x = ACT, y = mean_final, fill = soph_label)) +
+geom_col(position = "dodge", width = 0.7) +
+scale_fill_manual(values = c("Not Sophomore" = "grey", "Sophomore" = "skyblue")) +
+  labs(title = "Mean Final Score by ACT and Sophomore Status",
+       x = "ACT Score", y = "Mean Final Score",
+       fill = "Sophomore Status") +
+  theme_minimal()
+
+```
+
+```{r}
+#stacked bar graph
+ggplot(df_soph_relabeled, aes(x = ACT, y = mean_final, fill = soph_label)) +
+  geom_col(position = "stack", width = 0.7) +
+  scale_fill_manual(values = c("Not Sophomore" = "grey", "Sophomore" = "skyblue")) +
+  labs(title = "Mean Final Score by ACT and Sophomore Status (Stacked)",
+       x = "ACT Score", y = "Mean Final Score",
+       fill = "Sophomore Status") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(df_soph_relabeled, aes(x = ACT, y = mean_final, fill = soph_label)) +
+  geom_col(width = 0.7) +
+  facet_wrap(~ soph_label) +
+  scale_fill_manual(values = c("Not Sophomore" = "grey", "Sophomore" = "skyblue")) +
+  labs(title = "Mean Final Score by ACT",
+       x = "ACT Score", y = "Mean Final Score") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+## 4.2
+
+-   *From the above bar charts it is very clear that the dodged and faceted bar charts accurately describe our data since the y-axis mean values are well preserved from our original data.*
+
+## 4.3
+
+-   *3.2 dodged bar chart using would attempts to plot every individual student’s final score as a separate bar for each ACT level and sophomore group. This approach results in multiple bars stacked or overlapping at the same ACT value, creating a cluttered and uninterpretable visual. It fails to summarize the data and obscures any underlying trend because the bars represent individual observations rather than group characteristics.*
+
+-   *In contrast, 4.2 dodged bar chart aggregates the data by ACT and sophomore status, showin the average final score for each combination. This summary clearly reveals the central tendency and allows for direct comparison between groups. It reduces noise and highlights the relationship between ACT, final score, and the moderator.*
+
+-   *Therefore, the chart based on mean final scores is the trustworthy one because it provides a meaningful statistical summary*
+
+    ## 4.4
+
+<!-- -->
+
+-   ***Overall trend**: In both groups, mean final scores tend to increase with higher ACT scores. This positive association is expected, as ACT is a measure of academic ability and preparedness.*
+
+-   ***Group differences**: Sophomores often have slightly higher mean final scores than freshmen across most ACT levels. This could reflect greater familiarity with college‑level expectations or accumulated academic skills.*
+
+# Ex 5: Boxplot vs. correct barplot
+
+##    5.1
+
+```{r}
+ggplot(df_soph_relabeled, aes(x = factor(ACT), y = final, fill = soph_label)) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.7) +   
+  geom_jitter(position = position_jitterdodge(jitter.width = 0.2, dodge.width = 0.8),
+              aes(color = soph_label), alpha = 0.4, size = 1) +
+  scale_fill_manual(values = c("Not Sophomore" = "purple", "Sophomore" = "skyblue")) +
+  scale_color_manual(values = c("Not Sophomore" = "darkred", "Sophomore" = "darkblue")) +
+  labs(title = "Distribution of Final Scores by ACT and Sophomore Status",
+       x = "ACT Score", y = "Final Score",
+       fill = "Sophomore Status", color = "Sophomore Status") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+##     5.2
+
+-   *Bar plots from question 4 provide a quick comparison of means while the boxplot in question 5 above reveals the median, spread and any outliers. My preference is the boxplot with jitter as it provides a richer picture of the data.*
+
+    ## 5.3
+
+-   *Medians: At most ACT levels, sophomores have slightly higher median final scores than freshmen. This suggests an experience or maturity advantage.*
+
+-   *Spread: The interquartile ranges (box heights) are often similar, indicating comparable variability. However, freshmen may show more extreme low outliers (students with very low final scores) at lower ACT levels.*
+
+-   *Interaction: The gap between the two groups appears relatively constant across the ACT range, implying a main effect of sophomore status rather than an interaction. In other words, the benefit of being a sophomore is similar regardless of ACT score – it shifts the distribution upward without changing the slope of the relationship*
+
+# Ex 6: Impact of ACT on attendance, moderated by freshaman status: Boxplot
+
+```{r}
+df_fresh_relabeled <- df %>%
+  mutate(freshman_label = factor(frosh,
+                                  levels = c(0, 1),
+                                  labels = c("Non-Freshman", "Freshman")))
+
+ggplot(df_fresh_relabeled , aes(x = factor(ACT), y = atndrte, fill = freshman_label)) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.7) +
+  geom_jitter(position = position_jitterdodge(jitter.width = 0.2, dodge.width = 0.8),
+              aes(color = freshman_label), alpha = 0.3, size = 0.8) +
+  scale_fill_manual(values = c("Non-Freshman" = "lightgreen", "Freshman" = "orange")) +
+  scale_color_manual(values = c("Non-Freshman" = "darkgreen", "Freshman" = "darkorange")) +
+  labs(title = "Attendance Rate by ACT Score and Freshman Status",
+       x = "ACT Score", y = "Attendance Rate (%)",
+       fill = "Status", color = "Status") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+-   *No, the relationship is not identical between the two groups. While both groups show a positive trend, non‑freshmen tend to have higher attendance rates across the board, and the increase with ACT appears more consistent. This suggests that freshman status moderates the relationship between ACT and attendance: being a freshman is associated with both lower attendance and a weaker (or differently shaped) association with ACT.*
+
+# Ex 7: Attendance by Act, moderated by freshman status: Scatterplot
+
+```{r}
+ggplot(df_fresh_relabeled, aes(x = ACT, y = atndrte)) +
+  geom_point(alpha = 0.4, color = "darkblue") +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  facet_wrap(~ freshman_label) +
+  labs(title = "Attendance Rate vs. ACT Score",
+       subtitle = "Faceted by Freshman Status",
+       x = "ACT Score", y = "Attendance Rate (%)") +
+  theme_minimal()
+```
+
+-   *The scatter plot with fitted lines provides a much clearer view of the nature of the relationship between ACT and attendance than a barplot does because we can see whether the slopes differ (interaction) and whether the entire cloud of points shifts between groups*
+
+-   *In summary, the scatter plot reveals that freshman status moderates the relationship: being a freshman is associated with lower attendance overall, and the positive effect of ACT on attendance is weaker (or even absent) for freshmen compared to non‑freshmen. This difference would be hard to detect from a bar plot of means alone.*
+
+# Ex 8: Correlations
+
+## 8.1
+
+```{r}
+vars <- df %>% 
+  select(attend, termGPA, priGPA, ACT, final, atndrte, hwrte)
+
+#a matrix of scatter plots, densities, and correlations
+p_ggpairs <- ggpairs(vars, 
+                     title = "Correlation Matrix (ggpairs)") +
+  theme_minimal()
+
+#a heatmap of correlations
+p_ggcorr <- ggcorr(vars, 
+                   label = TRUE, 
+                   label_round = 2,
+                   hjust = 0.75, 
+                   size = 3,
+                   layout.exp = 2) +
+  labs(title = "Correlation Heatmap (ggcorr)") +
+  theme_minimal()
+
+# Display both 
+print(p_ggpairs)
+print(p_ggcorr)
+```
+
+## 8.2
+
+```{r}
+# Calculating correlation matrix
+cor_matrix <- cor(vars, use = "complete.obs")
+print(cor_matrix)
+
+# Finding the highest correlation 
+cor_matrix[lower.tri(cor_matrix, diag = TRUE)] <- NA  # set diagonal and lower tri to NA
+max_cor <- max(cor_matrix, na.rm = TRUE)
+max_index <- which(cor_matrix == max_cor, arr.ind = TRUE)
+var_pair <- dimnames(cor_matrix)[[2]][max_index[2]]  # column name
+cat("Highest correlation:", max_cor, "between", 
+    rownames(cor_matrix)[max_index[1]], "and", var_pair, "\n")
+```
+
+## 8.3
+
+```{r}
+# Correlations with termGPA and priGPA
+cor(vars[, c("atndrte", "hwrte")], vars[, c("termGPA", "priGPA")], use = "complete.obs")
+```
+
+*Insight: From this results, `hwrte` (homework completion rate) has a higher correlation with both `termGPA` and `priGPA` than `atndrte` does. This suggests that consistently turning in homework is a more effective way to improve GPA than merely attending class.*
+
+# Ex 9: Scatter plot with regression line for the impact of priGPA on termGPA.
+
+```{r}
+df_soph_relabeled <- df %>%
+  mutate(soph_label = factor(soph,
+                              levels = c(0, 1),
+                              labels = c("Not Sophomore", "Sophomore")))
+
+
+scatter_plot <- ggplot(df_soph_relabeled, aes(x = priGPA, y = termGPA, color = soph_label)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_color_manual(values = c("Not Sophomore" = "darkgreen", "Sophomore" = "orange")) +
+  labs(title = "Prior GPA vs. Term GPA",
+       subtitle = "Separated by Sophomore Status",
+       x = "Prior GPA", y = "Term GPA",
+       color = "Sophomore Status") +
+  theme_minimal()
+
+# Print the plot
+print(scatter_plot)
+```
+
+-   *The scatter plot shows a moderate to strong positive linear relationship between prior GPA and term GPA in both groups. The points are clustered around the regression line, indicating that prior GPA is a good predictor of current performance*
+
+# Ex 10: Interactive Plot and Save the plot from question 9.
+
+```{r}
+
+# Convert the scatter plot to interactive (using scatter_plot, not plot)
+interactive_scatter <- ggplotly(scatter_plot, tooltip = c("x", "y", "color"))
+
+# Display the interactive plot
+interactive_scatter
+
+#save plot from question 9
+ggsave("myplot.png", plot = scatter_plot, width = 8, height = 6, dpi = 300)
+```

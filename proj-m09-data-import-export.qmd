@@ -1,0 +1,280 @@
+---
+title: "M09-2-Application Assignment: Data Import and Export"
+author: "Raymond Marquez"
+date: '`r format(Sys.time())`'
+format: 
+  html: 
+    toc: true
+    toc-depth: 4
+    number-sections: true
+    code-line-numbers: true
+    code-fold: false
+    code-link: true
+    embed-resources: true
+editor: visual
+execute: 
+  freeze: auto
+warning: false
+error: true
+---
+
+# Prompt 1 
+
+```{r}
+# Load required packages
+library(readr)
+library(dplyr)
+library(tidyr)
+
+# Q1.1 
+raw_items <- read_csv(
+  "data/items_ordered.csv",
+  skip = 1,
+  col_names = FALSE,
+  col_types = cols(.default = "c")
+)
+
+items <- raw_items %>%
+  separate(X1, into = c("customer_id","order_date","item","quantity","price"), sep = ";") %>%
+  mutate(
+    quantity = as.numeric(quantity),
+    price = as.numeric(price)
+  )
+
+glimpse(items)
+
+# Q1.2
+items %>%
+  filter(price == max(price, na.rm = TRUE)) %>%
+  select(item)
+```
+
+# Prompt 2
+
+```{r}
+library(readxl)
+library(ggplot2)
+
+# --- Q2.1: Read Excel file ---
+items_excel <- read_excel("data/items_ordered.xlsx")
+glimpse(items_excel)
+
+# --- Q2.2: Plot and export ---
+dir.create("images", showWarnings = FALSE)
+
+plot_obj <- ggplot(items_excel, aes(item, quantity)) +
+  geom_col() +
+  theme_minimal() +
+  labs(title = "Item Quantities")
+
+ggsave("images/items.png", plot_obj)
+ggsave("images/items.pdf", plot_obj)
+ggsave("images/items.jpg", plot_obj)
+```
+
+# Prompt 3
+
+```{r}
+library(dplyr)
+library(naniar)
+library(writexl)
+
+# --- Q3.1: Import clipboard data ---
+exec_data <- read.delim("clipboard", header = TRUE)
+
+exec_clean <- exec_data %>%
+  replace_with_na_all(~ . %in% c("N/A", "--"))
+
+glimpse(exec_clean)
+
+# --- Q3.2: Export cleaned data ---
+write.csv(exec_clean, "data/dis_exec_clean.csv", row.names = FALSE)
+write_xlsx(exec_clean, "data/dis_exec_clean.xlsx")
+```
+# Prompt 4
+
+```{r}
+library(rvest)
+library(stringr)
+
+# Load webpage
+url <- "https://web.archive.org/web/20220201012049/https://www.imdb.com/chart/top/"
+page <- read_html(url)
+
+# Q4.1: Extract titles
+titles <- page %>%
+  html_elements(".titleColumn a") %>%
+  html_text(trim = TRUE)
+
+# Q4.2: Extract years 
+years <- page %>%
+  html_elements(".secondaryInfo") %>%
+  html_text() %>%
+  str_remove_all("[()]")
+
+# Q4.3: Extract ratings 
+ratings <- page %>%
+  html_elements(".imdbRating strong") %>%
+  html_text() %>%
+  as.numeric()
+
+head(titles)
+head(years)
+head(ratings)
+```
+# Prompt 5
+
+```{r}
+library(dplyr)
+library(tibble)
+
+# Combine scraped data
+movies <- tibble(
+  title = titles,
+  year = years,
+  rating = ratings
+) %>%
+  arrange(desc(rating))
+
+head(movies)
+tail(movies)
+```
+# Prompt 6
+
+```{r}
+library(naniar)
+library(tibble)
+
+# Create messy dataset
+sample_data <- tribble(
+  ~name, ~x, ~y, ~z,
+  "N/A",1,"N/A",-100,
+  "N A",3,"NOt available",-99,
+  "N / A",NA,"29",-98,
+  "Not Available",-99,"25",-101,
+  "John Smith",-98,"28",-1
+)
+
+# Q6.1 
+sample_data %>% replace_with_na_all(~ . == "N/A")
+
+# Q6.2 
+sample_data %>% replace_with_na_all(~ . %in% c("N/A","N A","N / A"))
+
+# Q6.3 
+sample_data %>% replace_with_na_all(~ . %in% c(-99,-98))
+
+# Q6.4 
+# replace_with_na_all() is efficient for handling multiple missing patterns at once
+```
+# Prompt 7
+
+```{r}
+library(readr)
+library(dplyr)
+library(janitor)
+library(WDI)
+library(ggplot2)
+
+# Q7.1: Load and filter
+ratio_data <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-05-07/student_teacher_ratio.csv") %>%
+  clean_names()
+
+filtered <- ratio_data %>%
+  filter(year == 2016,
+         indicator == "Secondary Education",
+         !is.na(student_ratio))
+
+# Q7.2: World Bank data
+wb <- WDI(
+  country = "all",
+  indicator = c("NY.GDP.PCAP.CD","SP.POP.TOTL"),
+  start = 2016,
+  end = 2016,
+  extra = TRUE
+)
+
+# Q7.3: Merge and histogram 
+merged <- filtered %>%
+  left_join(wb, by = c("country_code" = "iso3c"))
+
+ggplot(merged, aes(student_ratio)) +
+  geom_histogram(bins = 20)
+
+# Q7.4: Scatter plot 
+ggplot(merged, aes(NY.GDP.PCAP.CD, student_ratio, size = SP.POP.TOTL)) +
+  geom_point(aes(color = region), alpha = 0.7) +
+  scale_x_log10() +
+  geom_smooth(method = "lm", se = FALSE)
+
+# Q7.5: Facet plot
+ggplot(merged, aes(NY.GDP.PCAP.CD, student_ratio)) +
+  geom_point() +
+  facet_wrap(~region) +
+  scale_x_log10()
+```
+# Prompt 8
+
+```{r}
+library(haven)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+# Q8.1: Load SPSS data 
+demo <- read_sav("data/demo.sav")
+
+# Q8.2: Frequency tables 
+table(demo$employ)
+table(demo$retire)
+table(demo$empcat)
+table(demo$jobsat)
+
+# Q8.3: Visualization 
+demo %>%
+  select(wireless:callwait) %>%
+  pivot_longer(everything()) %>%
+  ggplot(aes(name, fill = factor(value))) +
+  geom_bar()
+```
+# Prompt 9
+
+```{r}
+library(dplyr)
+
+# Q9.1: Create score
+demo <- demo %>%
+  mutate(tech_score = rowSums(select(., wireless:callwait), na.rm = TRUE))
+
+# Q9.2: Group comparison 
+demo %>%
+  group_by(retire) %>%
+  summarise(avg_score = mean(tech_score, na.rm = TRUE))
+
+# Q9.3
+# Retired individuals generally show lower engagement with technology-related tools
+```
+# Prompt 10
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+tech_long <- demo %>%
+  select(wireless:callwait) %>%
+  pivot_longer(everything())
+
+summary_stats <- tech_long %>%
+  group_by(name) %>%
+  summarise(
+    proportion = mean(value, na.rm = TRUE),
+    se = sd(value, na.rm = TRUE)/sqrt(n())
+  )
+
+ggplot(summary_stats, aes(reorder(name, proportion), proportion)) +
+  geom_col() +
+  geom_errorbar(aes(ymin = proportion - 1.96*se,
+                    ymax = proportion + 1.96*se)) +
+  coord_flip()
+```

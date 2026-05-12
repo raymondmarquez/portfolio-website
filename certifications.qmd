@@ -1,0 +1,42 @@
+---
+title: "Certifications"
+subtitle: "Professional Credentials & Specialized Training"
+---
+
+A collection of my professional certifications and specialized training completions, demonstrating my commitment to staying at the forefront of marketing analytics and data science.
+
+```{=html}
+<div class="features-grid" style="margin-top:2rem;">
+
+  <div class="feature-card" style="text-align:left;">
+    <img src="assets/img/certs/ga4-tools.png" alt="GA4 Tools Certificate" style="width:100%; border-radius:14px; margin-bottom:1.2rem;">
+    <h3 style="margin-bottom:0.4rem;">GA4 Tools & Data Sources</h3>
+    <p><strong>Course:</strong> Use GA4 with other Tools and Data Sources<br>
+    <strong>Candidate:</strong> Raymond Marquez<br>
+    <strong>Date:</strong> March 4, 2026<br>
+    <strong>ID:</strong> 57183 176037716</p>
+    <a href="rendered/ga4-certification.html" class="btn-hero-primary" target="_blank">View Certificate</a>
+  </div>
+
+  <div class="feature-card" style="text-align:left;">
+    <img src="assets/img/certs/google-analytics.png" alt="Google Analytics Certificate" style="width:100%; border-radius:14px; margin-bottom:1.2rem;">
+    <h3 style="margin-bottom:0.4rem;">Google Analytics Certification</h3>
+    <p><strong>Certification:</strong> Google Analytics Certification<br>
+    <strong>Candidate:</strong> Raymond Marquez<br>
+    <strong>Issued:</strong> March 14, 2026 &bull; <strong>Expires:</strong> March 14, 2027<br>
+    <strong>ID:</strong> 176957354</p>
+    <a href="rendered/ga4-full-certification.html" class="btn-hero-primary" target="_blank">View Certificate</a>
+  </div>
+
+  <div class="feature-card" style="text-align:left;">
+    <img src="assets/img/certs/ga4-reports.jpg" alt="GA4 Reports Certificate" style="width:100%; border-radius:14px; margin-bottom:1.2rem;">
+    <h3 style="margin-bottom:0.4rem;">Dive Deeper into GA4</h3>
+    <p><strong>Course:</strong> Dive Deeper into GA4 Data and Reports<br>
+    <strong>Candidate:</strong> Raymond Marquez<br>
+    <strong>Date:</strong> February 25, 2026<br>
+    <strong>ID:</strong> 57183 175479255</p>
+    <a href="rendered/ga4-micro-apps.html" class="btn-hero-primary" target="_blank">View Certificate</a>
+  </div>
+
+</div>
+```

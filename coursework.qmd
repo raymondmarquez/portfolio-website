@@ -1,0 +1,66 @@
+---
+title: "Coursework"
+subtitle: "Academic Reflections & Theoretical Foundations"
+---
+
+A collection of reflection essays and academic projects that illustrate my theoretical understanding and practical application of advanced data science concepts.
+
+```{=html}
+<div class="features-grid" style="margin-top:2rem;">
+
+  <div class="feature-card">
+    <div class="feature-icon-box">
+      <i class="bi bi-palette"></i>
+    </div>
+    <h3>Advanced Data Visualization</h3>
+    <p><strong>M04 Reflection</strong><br>
+    Examining the principles of visual perception and the strategic use of design to communicate data findings effectively.</p>
+    <a href="rendered/m04-reflection.html" class="btn-hero-outline" target="_blank">Read Essay</a>
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-icon-box">
+      <i class="bi bi-funnel"></i>
+    </div>
+    <h3>Advanced Data Wrangling</h3>
+    <p><strong>M06 Reflection</strong><br>
+    Reflecting on the complexities of real-world data preparation and the development of robust cleaning workflows.</p>
+    <a href="rendered/m06-reflection.html" class="btn-hero-outline" target="_blank">Read Essay</a>
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-icon-box">
+      <i class="bi bi-boxes"></i>
+    </div>
+    <h3>Advanced Data Types</h3>
+    <p><strong>M08 Reflection</strong><br>
+    Exploring the nuances of R's data structures and their impact on analytical performance and code clarity.</p>
+    <a href="rendered/m08-reflection.html" class="btn-hero-outline" target="_blank">Read Essay</a>
+  </div>
+
+</div>
+
+<div class="features-grid" style="margin-top:2rem;">
+
+  <div class="feature-card">
+    <div class="feature-icon-box">
+      <i class="bi bi-braces"></i>
+    </div>
+    <h3>Advanced R Programming</h3>
+    <p><strong>M12 Reflection</strong><br>
+    Analyzing the application of functional programming paradigms to solve sophisticated data challenges.</p>
+    <a href="rendered/m12-reflection.html" class="btn-hero-outline" target="_blank">Read Essay</a>
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-icon-box">
+      <i class="bi bi-stars"></i>
+    </div>
+    <h3>Introduction to Positron</h3>
+    <p><strong>W07 Reflection</strong><br>
+    A foundational review of the Positron environment and its integration into modern data science workflows.</p>
+    <a href="rendered/w07-reflection.html" class="btn-hero-outline" target="_blank">Read Essay</a>
+  </div>
+
+</div>
+```

@@ -1,0 +1,42 @@
+---
+title: "Presentations"
+subtitle: "Interactive Slide Decks & Revealjs Presentations"
+---
+
+These slide decks were developed using Quarto and Revealjs, allowing for dynamic, code-driven storytelling and interactive data visualizations.
+
+```{=html}
+<div class="features-grid" style="margin-top:2rem;">
+
+  <div class="feature-card">
+    <div class="feature-icon-box">
+      <i class="bi bi-easel"></i>
+    </div>
+    <h3>Advanced R Programming</h3>
+    <p><strong>Module 12 Reflection</strong><br>
+    Insights into advanced programming concepts, functional programming, and efficient R code.</p>
+    <a href="rendered/m12-reflection.html" class="btn-hero-primary" target="_blank">View Slides</a>
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-icon-box">
+      <i class="bi bi-layers"></i>
+    </div>
+    <h3>Advanced Data Types</h3>
+    <p><strong>Module 08 Reflection</strong><br>
+    An exploration of complex data structures in R, including lists, data frames, and factor management.</p>
+    <a href="rendered/m08-reflection.html" class="btn-hero-primary" target="_blank">View Slides</a>
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-icon-box">
+      <i class="bi bi-people"></i>
+    </div>
+    <h3>Data Wrangling & Analysis</h3>
+    <p><strong>Group 3 Project</strong><br>
+    A comprehensive presentation on the data wrangling process, analysis methodologies, and final findings.</p>
+    <a href="rendered/group3-analysis.html" class="btn-hero-primary" target="_blank">View Slides</a>
+  </div>
+
+</div>
+```

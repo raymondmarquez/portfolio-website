@@ -1,0 +1,171 @@
+---
+title: "M12-Reflection Essay-Advanced R Programming"
+subtitle: "Revealjs Presentation"
+author: "Raymond Marquez"
+institute: "IBM 3202, Cal Poly Pomona"
+date: "`r Sys.Date()`"
+format: 
+  revealjs:
+    theme: serif
+    logo: logo.png
+    width: 1600
+    height: 900
+    footer:  Advanced Programming in R
+    transition: slide
+    transition-speed: default
+    incremental: false
+    toc: true
+    toc-depth: 1
+    slide-number: true
+    scrollable: true
+    smaller: true
+    code-fold: false
+    code-overflow: wrap
+    number-sections: false
+    number-depth: 5
+    embed-resources: true
+editor: visual
+execute: 
+  echo: true
+  freeze: auto
+---
+
+## Question 1
+
+One important lesson from Dr. Dave Robinson’s session is that functions help shift coding from being repetitive to being intentional. Instead of writing code step by step each time, you define a process once and reuse it whenever needed. This makes your work more consistent and easier to expand.
+
+::: notes
+Highlight that functions improve both efficiency and organization.
+:::
+
+---
+
+## Question 2
+
+Dr. Pat Schloss demonstrated how **purrr** simplifies repetitive work by applying functions across data structures. Instead of writing loops, you describe the action and let purrr handle the repetition.
+
+
+::: columns
+
+::: {.column width="50%"}
+Two key applications:
+
+- Running models across subsets  
+- Returning clean outputs using broom  
+
+This approach reduces manual work and improves reproducibility.
+:::
+
+:::
+
+::: {.column width="60%"}
+
+```{r}
+library(dplyr)
+library(purrr)
+library(broom)
+
+#Multiple linear regression
+iris %>%
+  split(.$Species) %>%
+  map(~ lm(Sepal.Length ~ Petal.Length, data = .)) %>%
+  map(tidy)
+
+#Statistical tests
+iris %>%
+  split(.$Species) %>%
+  map(~ cor.test(.$Sepal.Length, .$Sepal.Width)) %>%
+  map(tidy)
+```
+:::
+
+
+
+---
+
+## Question 3
+
+From Hadley Wickham’s talk, I learned that writing code is not just about solving problems, but about structuring solutions clearly. Functional programming encourages building small, predictable pieces that can be combined.
+
+
+::: notes
+Emphasize simplicity and predictability.
+:::
+
+---
+
+## Question 4
+
+Dr. Albert Rapp’s session showed that dashboards are more effective when they prioritize communication. Quarto makes it possible to combine analysis and reporting in one environment.
+
+::: notes
+Simplicity is a major advantage.
+:::
+
+---
+
+## Question 5
+
+Parameterized reporting allows one report to adapt to different inputs without rewriting code. You define variables once and reuse the same structure for multiple outputs.
+
+::: {.fragment}
+This is useful when producing similar reports for different categories such as time periods or locations.
+:::
+
+::: notes
+Relate to real-world reporting workflows
+:::
+
+---
+
+## Question 6
+
+Sean Nguyen highlighted that dashboards often fail when they try to present too much information. Instead, the focus should be on clarity and usability.
+
+::: notes
+Stress importance of storytelling over complexity.
+:::
+
+---
+
+## Question 7
+
+Learning these tools required adapting to new ways of thinking, especially around functional programming and workflow design.
+
+Challenges:
+
+- Understanding new syntax
+- Debugging pipelines
+- Structuring reports
+
+Improvements:
+
+- Better coding habits
+- More efficient workflows
+- Increased confidence
+
+::: notes
+Balance difficulty with progress.
+:::
+
+---
+
+## Question 8
+
+This learning experience changed how I approach data work by focusing more on efficiency and structure rather than just results.
+
+Key changes
+
+- More emphasis on reusable code
+- Greater focus on automation
+- Improved organization of analysis
+
+Future plans
+
+- Automate reporting workflows
+- Integrate AI tools into analysis
+- Improve communication of results
+
+::: notes
+Connect learning to future career growth.
+:::

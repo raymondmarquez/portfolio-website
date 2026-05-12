@@ -1,0 +1,95 @@
+---
+title: "M06-Reflection Essay-Advanced Data Wrangling"
+author: "Raymond Marquez"
+date: '`r format(Sys.time())`'
+format: 
+  html: 
+    toc: true
+    toc-depth: 4
+    number-sections: true
+    code-link: true
+    embed-resources: true
+editor: visual
+execute: 
+  freeze: auto
+---
+
+**Qn 1**
+
+This step covered several Tidyverse functions that help with everyday data work.
+
+The **recode()** function lets you swap out values for cleaner categories. Instead of writing long conditional statements, you can handle it in one straightforward line.
+
+Another useful tool is **across()**. It applies the same calculation to multiple columns at once. When you need to transform many variables, this saves a lot of repetitive typing.
+
+The **tidyselect helpers** make it easier to pick columns based on patterns. You can select everything that starts with a certain word or contains specific text without listing each column name.
+
+These shortcuts showed me that experienced analysts use the Tidyverse to work faster and keep their code clean.
+
+**Qn 2**
+
+Watching David Robinson work through data was eye-opening.
+
+He moved quickly through the dataset, checking what was there and making adjustments along the way. I saw him use filter() to narrow down rows, mutate() to create new variables, and ggplot() to build visuals. His typing was fast, so I missed some details. But the overall flow was clear.
+
+He explored, made changes, and followed whatever looked interesting. When a pattern caught his attention, he dug deeper. When something didn't work, he tried something else.
+
+I didn't catch every function he used. But watching his process showed me how real analysis works. It's not about getting it right the first time. It's about exploring until you find something worth pursuing.
+
+**Qn 3**
+
+The two cleaning videos showed different approaches to preparing data.
+
+The first video focused on basic organization. The analyst renamed variables so they made sense. They checked for missing values and decided what to do with them. They removed responses that were clearly invalid, like impossible values or empty entries. These steps made the dataset usable.
+
+The second video went further. The analyst applied stricter rules about what counted as a valid response. They filtered out observations that didn't meet these standards. They made sure categories were consistent across the dataset. They checked for logical problems and fixed them.
+
+The first pass kept more observations. The second pass removed more but improved reliability. The final dataset was smaller, but the remaining data was better for drawing accurate conclusions.
+
+**Qn 4**
+
+Revealjs offers a different way to build presentations compared to traditional software.
+
+You can show content step by step instead of all at once. Transitions create flow between slides. Themes control the overall look. Code and charts can live directly inside the slides. When your data updates, the visuals update too.
+
+For technical presentations, this connection between analysis and explanation is valuable. Everything stays connected. There's no copying and pasting charts that might be out of date.
+
+The tradeoff is you need some coding knowledge. PowerPoint you can open and start using right away. Revealjs takes time to learn. But for data science work, having your analysis inside your slides makes sense.
+
+**Qn 5**
+
+The Revealjs presentation describes a plan for the class project portfolio website. Click [presentation](https://raymondmarquez.github.io/Reflection-on-Advanced-Data-Wrangling-in-R/) to access the slides.
+
+**Qn 6**
+
+Three functions from Step 6 are worth remembering.
+
+**full_join()** combines two datasets and keeps all rows from both. When information doesn't match between tables, it fills in missing values. You might use this when you need a complete view of two related datasets. The code looks like full_join(orders, customers, by = "customer_id") and returns a table with all orders and all customers.
+
+**distinct()** removes duplicate rows from a dataset. This is useful when your data has repeated entries for the same observation. The code distinct(survey_data, respondent_id, .keep_all = TRUE) returns one row per respondent with duplicates removed.
+
+**across()** applies the same calculation to multiple columns. Instead of writing separate code for each variable, you can handle them all at once. The code summarize(across(where(is.numeric), mean)) returns average values for every numeric column in your dataset.
+
+**Qn 7**
+
+What stood out most was learning to transform messy data into something useful.
+
+Real data never arrives ready to use. Variable names are unclear. Values are missing. Formats are inconsistent. Important information sits scattered across different places.
+
+The Tidyverse tools help solve these problems systematically. mutate() creates new variables. filter() keeps what matters. The pipe connects everything in a sequence that's easy to follow.
+
+Wrangling doesn't get much attention compared to charts and models. But without it, nothing else works properly. Clean data creates the foundation for everything that follows.
+
+**Qn 8**
+
+Learning these tools comes with some challenges.
+
+Remembering which function to use takes time. There are many options in the Tidyverse and some do similar things. It's easy to mix them up at first.
+
+Debugging code can also be frustrating. Sometimes the code runs but gives the wrong result. Finding where things went wrong takes patience.
+
+Regular practice helps with both problems. Running code step by step shows how each function changes the data. Checking documentation clarifies what functions actually do. Reviewing class examples reinforces the patterns. Watching experienced analysts work shows efficient approaches.
+
+**Qn 9**
+
+Click [report](https://raymondmarquez.github.io/Step-7-Reflection-on-Advanced-Data-Wrangling-in-R) to access the reflection of M06 report.

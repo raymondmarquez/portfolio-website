@@ -1,0 +1,100 @@
+---
+pagetitle: "Raymond Marquez | Portfolio"
+toc: false
+page-layout: full
+---
+
+```{=html}
+<!-- ===== HERO SECTION ===== -->
+<section class="hero-section">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <p class="hero-greeting">Hello, I'm</p>
+        <h1 class="hero-name">Raymond Marquez</h1>
+        <p class="hero-roles">Data Scientist  |  Marketing Strategist  |  R Programming Expert</p>
+        <p class="hero-desc">I transform complex data into actionable business insights using data science, analytics, and strategic thinking.</p>
+        <div class="hero-buttons">
+          <a href="data-science.html" class="btn-hero-primary">View Projects</a>
+          <a href="resume.html" class="btn-hero-outline">Download Resume</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="assets/img/profile.jpg" alt="Raymond Marquez" class="profile-photo">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MISSION SECTION ===== -->
+<section class="mission-section">
+  <div class="container text-center">
+    <h2 class="section-title">Transforming Data into Strategy</h2>
+    <p class="mission-text">I am a data-driven professional specializing at the intersection of Data Science and Marketing Strategy.<br>
+    With a deep technical background in R programming and a certification in Google Analytics 4,<br>
+    I transform complex data into actionable business insights.</p>
+  </div>
+</section>
+
+<!-- ===== FEATURES SECTION ===== -->
+<section class="features-section">
+  <div class="container">
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon-box">
+          <i class="bi bi-bar-chart-line"></i>
+        </div>
+        <h3>Data Analytics</h3>
+        <p>Expertise in data wrangling, tidyverse, and statistical modeling using R.</p>
+        <div class="card-accent"></div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-box">
+          <i class="bi bi-graph-up-arrow"></i>
+        </div>
+        <h3>Marketing Strategy</h3>
+        <p>GA4 certified with experience in customer journey mapping and performance tracking.</p>
+        <div class="card-accent"></div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-box">
+          <i class="bi bi-lightbulb"></i>
+        </div>
+        <h3>Data Visualization</h3>
+        <p>Crafting compelling narratives through advanced ggplot2 and interactive presentations.</p>
+        <div class="card-accent"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONNECT SECTION ===== -->
+<section class="connect-section">
+  <div class="container text-center">
+    <h2 class="section-title">Connect With Me</h2>
+    <p class="connect-text">Feel free to explore my latest projects, coursework, and presentations.<br>
+    I am always open to discussing new opportunities at the forefront of data and marketing.</p>
+    <div class="connect-buttons">
+      <a href="data-science.html" class="btn-hero-primary">View Projects</a>
+      <a href="resume.html" class="btn-hero-outline">Download Resume</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SOCIAL LINKS ===== -->
+<section class="social-section">
+  <div class="container text-center">
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/raymond-marquez-538988363" target="_blank" class="social-badge">
+        <i class="bi bi-linkedin"></i> LinkedIn
+      </a>
+      <a href="https://github.com/raymondmarquez" target="_blank" class="social-badge">
+        <i class="bi bi-github"></i> Github
+      </a>
+      <a href="mailto:raymondmarquez@icloud.com" class="social-badge">
+        <i class="bi bi-envelope"></i> Email
+      </a>
+    </div>
+  </div>
+</section>
+```

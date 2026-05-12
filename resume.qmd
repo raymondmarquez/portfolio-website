@@ -1,0 +1,90 @@
+---
+title: "Resume"
+subtitle: "Professional Experience & Skills"
+---
+
+```{=html}
+<div style="max-width:1000px; margin:0 auto;">
+  <div style="display:grid; grid-template-columns:1.5fr 1fr; gap:3rem;">
+    
+    <!-- LEFT COLUMN: Main Content -->
+    <div>
+      <h2>Professional Summary</h2>
+      <p>Motivated student with strong interest in marketing, with skills in social media strategy, project coordination, design, and promotional activities. Experienced in employed and self-employed jobs as well as through connections and eager to contribute to companies through possible internship opportunities in order to further grow skills.</p>
+
+      <h2 style="margin-top:2.5rem;">Experience</h2>
+      
+      <h4>Associate | In-N-Out</h4>
+      <p style="color:#888; margin-bottom:0.5rem;"><em>Pomona &bull; 12/2022 - Current</em></p>
+      <ul>
+        <li>Operated point-of-sale system efficiently during peak hours.</li>
+        <li>Trained new associates on store operations, policies, and procedures.</li>
+        <li>Assisted in inventory management by restocking supplies as needed.</li>
+        <li>Built relationships with customers by providing friendly customer service.</li>
+        <li>Managed multiple tasks simultaneously while maintaining attention to detail.</li>
+        <li>Work in Rscript, Python, and data analytics through Google.</li>
+      </ul>
+
+      <h4>Self Employed Services | Automotive Customization</h4>
+      <p style="color:#888; margin-bottom:0.5rem;"><em>Chino, California &bull; 02/2022 - Current</em></p>
+      <ul>
+        <li>Provide wraps, interior customization, and installations while advertising to gain new clients.</li>
+        <li>Collaborated closely with team members to achieve project objectives and meet deadlines.</li>
+        <li>Prioritized and organized tasks to efficiently accomplish service goals.</li>
+      </ul>
+
+      <h4>Sales Associate | America's Tire</h4>
+      <p style="color:#888; margin-bottom:0.5rem;"><em>Chino, California &bull; 06/2022 - 09/2022</em></p>
+      <ul>
+        <li>Assisted customers in selecting appropriate tires and services.</li>
+        <li>Maintained inventory levels and organized stock in the sales area.</li>
+        <li>Addressed customer inquiries and resolved issues effectively and professionally.</li>
+      </ul>
+
+      <h4>Flooring Sales Specialist | Sam's Club</h4>
+      <p style="color:#888; margin-bottom:0.5rem;"><em>Chino &bull; 08/2021 - 05/2022</em></p>
+      <ul>
+        <li>Demonstrated product features and benefits to enhance customer understanding.</li>
+        <li>Managed inventory levels and organized displays for optimal presentation.</li>
+        <li>Trained new staff on product knowledge and sales techniques for floor products.</li>
+        <li>Supported promotional activities to boost product visibility and engagement.</li>
+      </ul>
+
+      <h2 style="margin-top:2.5rem;">Education</h2>
+      <h4>Associate of Arts and Sciences: Business Administration</h4>
+      <p style="color:#888;"><em>Chaffey College, Rancho Cucamonga, CA &bull; 05/2025</em></p>
+      
+      <h4>Marketing Management: Business</h4>
+      <p style="color:#888;"><em>California State Polytechnic University, Pomona, CA</em></p>
+    </div>
+
+    <!-- RIGHT COLUMN: Sidebar -->
+    <div>
+      <div style="background:#f0f1f5; padding:1.5rem; border-radius:14px; margin-bottom:2rem;">
+        <h3>Contact</h3>
+        <p><i class="bi bi-envelope-fill" style="margin-right:0.5rem;"></i> raymondmarquez@icloud.com</p>
+        <p><i class="bi bi-telephone-fill" style="margin-right:0.5rem;"></i> 909-241-1685</p>
+        <p><i class="bi bi-geo-alt-fill" style="margin-right:0.5rem;"></i> Chino, CA 91710</p>
+        <p><i class="bi bi-linkedin" style="margin-right:0.5rem;"></i> <a href="https://www.linkedin.com/in/raymond-marquez-538988363" target="_blank">LinkedIn Profile</a></p>
+      </div>
+
+      <h3>Technical Skills</h3>
+      <p>Content Creation, Data Analysis, R Programming, Python, Google Analytics, Project Management, Social Media Marketing, Adobe Creative Cloud, Web Design, Brand Promotion, Market Analysis, Strategic Planning.</p>
+
+      <h3 style="margin-top:1.5rem;">Languages</h3>
+      <p><strong>English:</strong> Full Professional<br>
+      <strong>Spanish:</strong> Limited</p>
+
+      <h3 style="margin-top:1.5rem;">Certifications</h3>
+      <p><i class="bi bi-patch-check-fill" style="margin-right:0.5rem;"></i> Digital Marketing Certificate<br>
+      <i class="bi bi-patch-check-fill" style="margin-right:0.5rem;"></i> Google Analytics Certification</p>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:3rem; padding-top:2rem; border-top:1px solid #eee;">
+    <a href="assets/docs/resume.pdf" class="btn-hero-primary" download="Raymond-Marquez-Resume.pdf">
+      <i class="bi bi-download" style="margin-right:0.5rem;"></i> Download Full Resume
+    </a>
+  </div>
+</div>
+```

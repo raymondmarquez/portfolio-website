@@ -1,0 +1,360 @@
+---
+title: "M05-2-Application: Data Wrangling with Tidyverse in R"
+author: "Raymond Marquez"
+date: '`r format(Sys.time())`'
+format: 
+  html: 
+    toc: true
+    toc-depth: 4
+    number-sections: true
+    code-line-numbers: true
+    code-fold: false
+    code-link: true
+    embed-resources: true
+editor: visual
+execute: 
+  freeze: auto
+  warning: false
+  error: true
+---
+
+# [Exercise 1: airquality Data Management]{.smallcaps}
+
+## [Section 1]{.smallcaps}
+
+```{r}
+
+library(tidyverse)
+
+# Convert to tibble 
+air.tib <- as_tibble(airquality)
+
+# Convert back to data frame 
+air.df <- as.data.frame(air.tib)
+
+class(air.df) 
+
+```
+
+## [Section 2]{.smallcaps}
+
+```{r}
+
+# Tidyverse approach
+air.tib %>%
+  filter(Temp == 97) %>%
+  select(Ozone)
+
+# Base R alternative using subsetting
+air.df[air.df$Temp == 97, "Ozone", drop = FALSE]
+```
+
+# [Exercise 2: nycflights13 - Flight Delays Analysis]{.smallcaps}
+
+## [Section 1]{.smallcaps}
+
+```{r}
+
+library(nycflights13)
+
+monthly_extremes <- flights %>%
+  filter(!is.na(arr_delay)) %>%
+  group_by(month, day) %>%
+  slice_max(arr_delay, n = 10) %>%
+  summarise(daily_top_avg = mean(arr_delay), .groups = "drop_last") %>%
+  summarise(avg_delay = mean(daily_top_avg))
+
+print(monthly_extremes)
+
+
+```
+
+## [Section 2]{.smallcaps}
+
+```{r}
+
+ggplot(monthly_extremes, aes(x = factor(month), y = avg_delay)) +
+  geom_col(fill = "darkorange2", width = 0.7) +
+  labs(title = "Monthly Profile of Extreme Arrival Delays",
+       subtitle = "Mean of the 10 longest delays per day",
+       x = "Month of Year", 
+       y = "Mean Delay (mins)") +
+  theme_classic()
+```
+
+## [Section 3]{.smallcaps}
+
+[***Conclusion***]{.underline}
+
+*The data indicates that peak arrival delays are remarkably consistent throughout the year. While one might expect spikes during winter storms or summer thunderstorms, the high level delay threshold remains a possibilty regardless of the season.*
+
+# [Exercise 3: Religion and Income Patterns]{.smallcaps}
+
+## [Section 1]{.smallcaps}
+
+```{r}
+
+# Overview of structure
+glimpse(relig_income)
+
+# Check for empty cells across the entire set
+colSums(is.na(relig_income))
+```
+
+***relig_income** data set is a tibble with 18 rows and 11 columns.*
+
+## [Section 2]{.smallcaps}
+
+```{r}
+
+?relig_income 
+```
+
+*The data comes from a Pew Research Center survey and has two main variables;*
+
+-   *Religion*
+
+-   *Income categories*
+
+## [Section 3]{.smallcaps}
+
+*We'll pivot the data to make it long using the pivot_long() function, because, currently, the data is in a wide format, making it hard to visualize income distributions all through the different religious affliations.*
+
+## [Section 4]{.smallcaps}
+
+```{r}
+library(tidyr)
+library(ggplot2)
+library(dplyr)
+
+# Data reshaping (identical to original)
+relig_long <- relig_income %>%
+  pivot_longer(-religion, names_to = "income", values_to = "count") %>%
+  filter(income != "Don't know/refused")
+
+# Alternative grouped bar chart using geom_bar(stat = "identity")
+ggplot(relig_long, aes(x = religion, y = count, fill = income)) +
+  geom_bar(stat = "identity", position = position_dodge()) +
+  scale_fill_viridis_d() +
+  labs(title = "Income Distribution by Religious Affiliation",
+       x = "Religion", y = "Number of Respondents", fill = "Income Bracket") +
+  theme_minimal()
+
+```
+
+# [Exercise 4: US Rent and Income Correlation]{.smallcaps}
+
+## [Section 1]{.smallcaps}
+
+```{r}
+
+# Summary 
+summary(us_rent_income)
+
+# Quick dimensions and head
+dim(us_rent_income)
+
+head(us_rent_income, 10)
+```
+
+*The tiblbe has 105 rows and 5 columns.*
+
+## [Section 2]{.smallcaps}
+
+```{r}
+
+?us_rent_income
+```
+
+The data was captured in a 2017 American Community Survey
+
+Description of the data variables is as follows:
+
+***GEOID** : FIP state identifier*
+
+***NAME:** Name of state*
+
+***variable:** Variable name: income = median yearly income, rent = median monthly rent*
+
+***estimate:** Estimated value*
+
+***moe:** 90% margin of error*
+
+## [Section 3]{.smallcaps}
+
+> *Currently the data is in a long format, so each states appears two times. We need to move the "variable" column into its own headers to allow for a scatter plot comparison using the **pivot_wider()*** function.
+
+## [Section 4]{.smallcaps}
+
+```{r}
+
+# Widening the data
+rent_wide <- us_rent_income %>%
+  pivot_wider(names_from = variable, values_from = c(estimate, moe))
+
+# Scatter plot with a regression trend
+ggplot(rent_wide, aes(x = estimate_income, y = estimate_rent)) +
+  geom_point(color = "midnightblue", size = 2, alpha = 0.7) +
+  geom_smooth(method = "loess", color = "firebrick", se = TRUE) +
+  labs(title = "Income vs. Rent: State-Level Analysis",
+       x = "Median Annual Income", 
+       y = "Median Monthly Rent") +
+  theme_light()
+```
+
+## [Section 5]{.smallcaps}
+
+```{r}
+
+# Widening the data
+us_rent_income %>%
+  pivot_wider(names_from = variable, values_from = c(estimate, moe))%>%
+ ggplot(aes(x = estimate_income, y = estimate_rent)) +
+  geom_point(color = "midnightblue", size = 2, alpha = 0.7) +
+  geom_smooth(method = "loess", color = "firebrick", se = TRUE) +
+  labs(title = "Income vs. Rent: State-Level Analysis",
+       x = "Median Annual Income", 
+       y = "Median Monthly Rent") +
+  theme_light()
+```
+
+# Exercise 5: Sports Data Manipulation
+
+```{r}
+
+mba <- data.frame(
+  player = c('A', 'A', 'B', 'B', 'C', 'C'),
+  year   = c(1, 2, 1, 2, 1, 2),
+  stats  = c('22/2/3', '29/3/4', '18/6/7', '11/1/2', '12/1/1', '19/2/4')
+)
+mba
+```
+
+## [Section 1]{.smallcaps}
+
+```{r}
+
+mba_sep <- mba %>%
+  separate(stats, into = c("points", "assists", "steals"), sep = "/", convert = TRUE) #separating
+
+mba_sep
+
+```
+
+## [Section 2]{.smallcaps}
+
+```{r}
+
+mba_uni <- mba_sep %>%
+  unite(stats, points, assists, steals, sep = "-") #uniting
+
+mba_uni
+```
+
+# [Exercise 6: Table Generation with `gt`]{.smallcaps}
+
+## [Section 1]{.smallcaps}
+
+```{r}
+
+library(gt)
+
+# Finding the daily 'latest start' per month
+late_starts <- flights %>%
+  drop_na(dep_time) %>%
+  group_by(month, day) %>%
+  summarise(first_out = min(dep_time), .groups = "drop") %>%
+  group_by(month) %>%
+  slice_max(first_out, n = 1)
+
+late_starts
+
+# Generate a'fancy' table
+late_starts %>%
+  gt() %>%
+  tab_header(title = "Monthly Peak for First Daily Departure") %>%
+  cols_label(month = "Month", day = "Day", first_out = "Time") %>%
+  data_color(columns = first_out, palette = "Greens")
+```
+
+## [Section 2]{.smallcaps}
+
+```{r}
+
+#head(flights, 5)
+
+top_destinations <- flights %>%
+  count(dest, sort = TRUE) %>% #count and sort 
+  slice_head(n = 5)
+
+top_destinations %>% 
+  gt() %>%  # generate a quality table
+  tab_header(title = "Top Five Destinations from New York")
+```
+
+The data makes sense since these are major cities that receive a lot of flights from New York City (NYC)
+
+# Exercise 7: Handling Missing Solar Radiation Data
+
+```{r}
+
+# imputing missing values with the median
+
+# calculate the median
+solar_median <- round(median(air.tib$Solar.R, na.rm = TRUE))
+solar_median
+
+# replacing the NAs with the median
+air_clean <- air.tib %>%
+  replace_na(list(Solar.R = solar_median))
+
+# Check if NAs are cleared
+anyNA(air_clean$Solar.R)
+```
+
+# Exercise 8: Temperature Analysis
+
+```{r}
+
+# total and maximum temperatures combined with label recoding
+air_summary <- air_clean %>%
+  mutate(Month_Label = month.name[Month]) %>% # Built-in R month names
+  group_by(Month_Label) %>%
+  summarise(
+    Total_Heat = sum(Temp),
+    Peak_Heat = max(Temp)
+  )
+
+head(air_summary)
+```
+
+# Exercise 9: Temperature Analysis - Visual
+
+```{r}
+
+# visualizing Max Temp
+ggplot(air_summary, aes(x = Peak_Heat, y = reorder(Month_Label, Peak_Heat))) +
+  geom_segment(aes(x = 60, xend = Peak_Heat, yend = Month_Label), color = "grey") +
+  geom_point(size = 4, color = "darkred") +
+  labs(title = "Highest Recorded Temperature by Month", x = "Temp (°F)", y = "") +
+  theme_minimal()
+```
+
+# Exercise 10: Multi-Variable Ozone Comparison
+
+```{r}
+
+air_clean %>%
+  mutate(T_W_Ratio = Temp / Wind) %>%
+  pivot_longer(cols = c(Temp, Wind, T_W_Ratio), names_to = "Metric", values_to = "Val") %>%
+  ggplot(aes(x = Val, y = Ozone)) +
+  geom_point(color = "darkcyan", alpha = 0.4) +
+  geom_smooth(method = "lm", color = "black", linetype = "dashed") +
+  facet_wrap(~Metric, scales = "free_x") +
+  labs(title = "Environmental Drivers of Ozone Levels") +
+  theme_bw()
+```
+
+[***Interpretation***]{.underline}
+
+*Ozone levels show a strong positive correlation with heat. Interestingly, wind acts as a diffuser, higher wind speeds are consistently linked to lower Ozone concentrations. The ratio provides a combined metric, but the individual variables offer clearer predictive power.*

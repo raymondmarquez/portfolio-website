@@ -1,0 +1,315 @@
+---
+title: "M11-2: Introduction to Functional Programming in R"
+author: "Raymond Marquez"
+date: '`r format(Sys.time())`'
+format: 
+  html: 
+    toc: true
+    toc-depth: 4
+    number-sections: true
+    code-line-numbers: true
+    code-fold: false
+    code-link: true
+    embed-resources: true
+editor: visual
+execute: 
+  freeze: auto
+  warning: false
+  error: true
+---
+
+# Prompt 1. 
+
+```{r}
+
+quantity <- 50
+
+if (quantity > 20) {
+  print("You sold a lot")
+} else {
+  print("Not enough for today.")
+}
+```
+
+# Prompt 2. 
+
+```{r}
+
+library(tidyverse)
+
+sales <- 25
+case_when(
+  sales < 20 ~ "Not enough for today.",
+  sales <= 30 ~ "Average Day",
+  TRUE ~ "You had a great day!"
+) %>% 
+  print()
+
+
+```
+
+# Prompt 3. 
+
+```{r}
+library(glue)
+library(tidyverse)
+
+category <- "A"
+price <- 100
+
+tax <- c(A=0.08,B=0.10,C=0.20)[category]
+
+final <- price * (1 + tax)
+
+glue("A tax rate of {tax*100}% is applied. The total price is {final}.") %>% 
+  print()
+```
+
+# Prompt 4. 
+
+```{r}
+
+q4 <- c(2, 5, 3, 9, 8, 11, 6)
+
+count <- 0
+
+for (i in q4) {
+  if (i %% 2 == 0) {
+    count <- count + 1
+  }
+}
+
+print(count)
+
+```
+
+# Prompt 5.
+
+```{r}
+
+q5 <- 1:8
+for(i in q5){
+  if(i>4 & i%%2==0){
+    print(i)
+  } else {
+    print("Condition not satisfied")
+  }
+}
+
+```
+
+# Prompt 6. 
+
+```{r}
+
+pow <- function(x, y) {
+  result <- x^y
+  print(paste0(x, " raised to the power of ", y, " is ", result, "."))
+}
+
+pow(8, 2)
+
+```
+
+# Prompt 7
+
+### Run this line of code: df \<- data.frame(x = 1:4, y = 5:8, z = 10:13). Use the apply function to get the mean and sum of each ROW on this dataframe. Add them to the data frame.
+
+```{r}
+
+df <- data.frame(x=1:4,y=5:8,z=10:13)
+df$mean <- apply(df,1,function(r) mean(r))
+df$sum  <- apply(df,1,function(r) sum(r))
+df
+
+```
+
+## Create a vector called q8 and assign the values 12, 18, and 6. Next, use the apply family and map family functions to calculate the square root of each element.
+
+```{r}
+
+library(purrr)
+
+q8 <- c(12, 18, 6)
+
+# apply family
+lapply(q8, sqrt)
+
+# map family
+map(q8, sqrt)
+
+```
+
+## Create a vector called q8 and assign the values 12, 18, and 6. Next, use the apply family and map family functions to calculate the square root of each element.
+
+```{r}
+
+q9 <- list(A = 1:5, B = 6:20, C = 1)
+
+lapply(q9, length)
+map(q9, length)
+
+
+```
+
+## What is the difference between lapply and sapply functions. Which map functions are similar to them? Consider that you want to calculate the exponentials of three numbers. In this case, which function you should use and why? Type your answer as a comment?
+
+lapply() always produces a list, whereas sapply() tries to simplify the output into a vector or matrix when possible.
+
+In the purrr package, map() behaves like lapply() by returning a list, while functions such as map_dbl() and map_int() are closer to sapply() since they return simplified numeric vectors.
+
+When computing exponentials, it’s preferable to use sapply() or map_dbl() because they give a numeric vector directly instead of a list.
+
+# Prompt 8
+
+## First, execute the following codes in the code chunk to read the data into R and set the global theme.
+
+```{r}
+
+library(tidyverse)
+
+theme_set(theme_bw())
+
+student_ratio <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-05-07/student_teacher_ratio.csv")
+
+
+```
+
+## Explore the data. Especially count the number of "year", the "indicator", and "country", separately.
+
+```{r}
+
+student_ratio %>% count(year)
+student_ratio %>% count(indicator)
+student_ratio %>% count(country)
+
+```
+
+## Next, draw a chart that shows the top and bottom 10 countries in student-teacher ratio for 2012.
+
+```{r}
+
+data_2012 <- student_ratio %>% 
+  filter(year == 2012)
+
+top10 <- data_2012 %>% top_n(10, student_ratio)
+bottom10 <- data_2012 %>% top_n(-10, student_ratio)
+
+bind_rows(top10, bottom10) %>%
+  ggplot(aes(x = reorder(country, student_ratio), y = student_ratio)) +
+  geom_col(fill = "blue") +
+  coord_flip() +
+  labs(
+    title = "Student-Teacher Ratios in 2012",
+    x = "Country",
+    y = "Student-Teacher Ratio"
+  ) +
+  theme_minimal()
+
+```
+
+## Note that there are six years from 2012 to 2017 that have a significant number of observations, conducive for drawing charts by year. Since you don't want to copy and paste the code again and again, you want to create a function that allows you to use it to draw all the charts by simply entering "year" information into the function. You will want to show "year" information in the chart as a subtitle. Create such a function.
+
+```{r}
+
+plot_ratio <- function(year_input){
+  student_ratio %>%
+    filter(year == year_input) %>%
+    top_n(10, student_ratio) %>%
+    ggplot(aes(x = reorder(country, student_ratio), y = student_ratio)) +
+    geom_col() +
+    coord_flip() +
+    labs(subtitle = paste("Year:", year_input))
+}
+```
+
+## Draw all charts for 2012 through 2017 using the function.
+
+```{r}
+years <- 2012:2017
+
+lapply(years, plot_ratio)
+```
+
+# Prompt 9
+
+## Read the following data in R and be prepared for analysis
+
+```{r}
+
+animal_outcomes <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-07-21/animal_outcomes.csv')
+animal_complaints <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-07-21/animal_complaints.csv')
+brisbane_complaints <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-07-21/brisbane_complaints.csv')
+
+```
+
+## First, briefly take a look at each data set. You will notice that some variables are lower case while others are upper case. You will also notice that some variables are consist of more than one word.
+
+```{r}
+
+glimpse(animal_outcomes)
+glimpse(animal_complaints)
+glimpse(brisbane_complaints)
+
+```
+
+## Create a pipeable function that will help you clean up the variable names across the data set, clean them up using the function, and reassign the data sets to the same names to overwrite them.
+
+```{r}
+
+library(janitor)
+
+clean_names_fn <- function(df){
+  df %>% clean_names()
+}
+
+animal_outcomes <- clean_names_fn(animal_outcomes)
+animal_complaints <- clean_names_fn(animal_complaints)
+brisbane_complaints <- clean_names_fn(brisbane_complaints)
+
+
+```
+
+## Create a pipeable function that can draw a bar chart showing a count of a variable from any of the three data sets above.
+
+```{r}
+
+plot_bar <- function(df, var){
+  df %>%
+    count({{var}}) %>%
+    ggplot(aes(x = reorder({{var}}, n), y = n)) +
+    geom_col(fill = "blue") +
+    coord_flip()
+}
+
+
+
+```
+
+## Then, using the function, create two bar charts of your interest from each data set.
+
+```{r}
+
+plot_bar(animal_outcomes, outcome)
+plot_bar(animal_outcomes, animal_type)
+
+plot_bar(animal_complaints, complaint_type)
+plot_bar(animal_complaints, suburb)
+
+plot_bar(brisbane_complaints, category)
+plot_bar(brisbane_complaints, suburb)
+
+```
+
+# Prompt 10. 
+
+```{r}
+
+# Q10
+oz_fun <- function(df){
+  df %>% group_by(Month) %>%
+    summarise(mean_ozone = mean(Ozone, na.rm=TRUE))
+}
+oz_fun(airquality)
+
+```

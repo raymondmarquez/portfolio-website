@@ -1,0 +1,51 @@
+project:
+  type: website
+  output-dir: _site
+  resources:
+    - rendered/**
+
+website:
+  title: "Raymond Marquez"
+  site-url: "https://raymondmarquez.github.io"
+  description: "Data Science and Marketing Portfolio of Raymond Marquez"
+  navbar:
+    pinned: true
+    background: "#2E1F27"
+    foreground: "#ffffff"
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "About"
+        href: about.qmd
+      - text: "Coursework"
+        href: coursework.qmd
+      - text: "Data Science"
+        href: data-science.qmd
+      - text: "Certifications"
+        href: certifications.qmd
+      - text: "Presentations"
+        href: presentations.qmd
+      - text: "Resume"
+        href: resume.qmd
+    right:
+      - icon: envelope
+        href: mailto:raymondmarquez@icloud.com
+      - icon: linkedin
+        href: https://www.linkedin.com/in/raymond-marquez-538988363
+      - icon: github
+        href: https://github.com/raymondmarquez
+
+format:
+  html:
+    theme:
+      - cosmo
+      - theme.scss
+    toc: true
+    toc-location: right
+    smooth-scroll: true
+    link-external-newwindow: true
+
+execute:
+  freeze: auto
+  warning: false
+  error: true
