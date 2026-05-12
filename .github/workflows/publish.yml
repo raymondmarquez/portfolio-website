@@ -20,6 +20,20 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
+      - name: Create gh-pages branch if needed
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin
+          if ! git show-ref --verify --quiet refs/remotes/origin/gh-pages; then
+            echo "Creating gh-pages branch..."
+            git checkout --orphan gh-pages
+            git rm -rf .
+            git commit --allow-empty -m "Initial gh-pages commit"
+            git push origin gh-pages
+            git checkout main
+          fi
+
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
